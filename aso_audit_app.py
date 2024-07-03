@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver import FirefoxOptions
+from selenium.webdriver.common.by import By
 import io
 import os
 
@@ -31,11 +32,16 @@ def get_screenshot_from_url(url):
         )
 
     browser.get(url)
-    sleep(5)
-    temp = io.BytesIO(browser.get_screenshot_as_png())
- 
+    sleep(2)
+
+    width = browser.execute_script('return document.body.parentNode.scrollWidth')
+    height = browser.execute_script('return document.body.parentNode.scrollHeight')
+    browser.set_window_size(width, height)
+
+    body = browser.find_elements(By.TAG_NAME, "body")
+    temp = io.BytesIO(body[0].screenshot_as_png)
+    
     image = Image.open(temp)
-    print(image)
     browser.quit()
 
     return image
