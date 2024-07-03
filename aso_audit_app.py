@@ -8,20 +8,36 @@ import typing_extensions as typing
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
+from selenium.webdriver import FirefoxOptions
 import io
+import os
 
-GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+#GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+GEMINI_API_KEY = "AIzaSyAGDmfLr3UGl1zV3uRHhysa4aCoaYsoXcA"
 genai.configure(api_key=GEMINI_API_KEY)
 
+@st.cache_resource
+def installff():
+  os.system('sbase install geckodriver')
+  os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
 def get_screenshot_from_url(url):
-    options = Options()
+    options = FirefoxOptions()
     options.add_argument("--headless")
-    browser = webdriver.Chrome(options=options)
+    options.add_argument("--disable-gpu")
+    browser = webdriver.Firefox(
+        options=options,
+        )
+
     browser.get(url)
     sleep(5)
     temp = io.BytesIO(browser.get_screenshot_as_png())
  
     image = Image.open(temp)
+    print(image)
     browser.quit()
 
     return image
@@ -49,6 +65,7 @@ def get_gemini_response(input):
     
 ##initialize our streamlit app
 st.set_page_config(page_title="ASO Audit App", layout = "wide")
+_ = installff()
 st.html(
 """
 <style>
@@ -116,6 +133,7 @@ if submit:
             row1 = st.container()
 
             with row1:
+                screenshot = Image.new('RGB', (10, 10))
                 with st.spinner('Analysing ASO Page ...'):
                     response = ""
                     try:
