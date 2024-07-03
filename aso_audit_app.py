@@ -16,8 +16,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import io
 
-#GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-GEMINI_API_KEY = "AIzaSyAGDmfLr3UGl1zV3uRHhysa4aCoaYsoXcA"
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_API_KEY)
 
 def get_screenshot_from_url(url):
