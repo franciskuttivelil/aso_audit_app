@@ -2,3 +2,5 @@ streamlit
 os
 PIL
 google.generativeai
+selenium
+io
