@@ -1,0 +1,4 @@
+libgtk2.0-dev
+libnss3
+libgconf-2-4
+libfontconfig1
