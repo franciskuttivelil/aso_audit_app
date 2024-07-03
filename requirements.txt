@@ -1,4 +1,3 @@
-PIL
 google.generativeai
 selenium
 io
