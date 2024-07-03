@@ -18,6 +18,7 @@ def get_screenshot_from_url(url):
     options.add_argument("--headless")
     browser = webdriver.Chrome(options=options)
     browser.get(url)
+    sleep(5)
     temp = io.BytesIO(browser.get_screenshot_as_png())
  
     image = Image.open(temp)
@@ -134,7 +135,8 @@ if submit:
                     st.header("ASO Page")
                     st.divider()
                     
-                    st.image(screenshot, use_column_width=True)
+                    if screenshot or screenshot is not None or screenshot != "":
+                        st.image(screenshot, use_column_width=True)
                 
             
                 with col2:
